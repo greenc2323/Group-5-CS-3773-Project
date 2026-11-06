@@ -88,7 +88,7 @@ The proposal names are preserved. See `docs/TEAM.md` for interfaces and acceptan
 | Mathew Davis — Developer | `tests/`, test evidence, optional restock notification design |
 | Mathew Belcher — Developer | README, `docs/`, deployment instructions and demo checklist |
 | Alex Vasquez — Developer | shop/auth.py, password policy, authentication and session integration |
-| Teya Machani — Team member | Responsibility to be confirmed by the team |
+| Teya Machani — Developer | Admin dashboard and demo verification for products, sales, discount codes, and order history |
 
 `shop/shopping.py` is a shared integration module: Robert owns the user flow, Cain reviews transactions, Alex reviews ownership checks, Mathew Davis validates failures, and Mathew Belcher documents it. Each change should have one branch, an issue with acceptance criteria, and one teammate's review before merging.
 
