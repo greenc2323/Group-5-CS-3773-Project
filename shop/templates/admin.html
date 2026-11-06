@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% macro product_form(p) %}
+<form method="post" action="{{ url_for('admin.product') }}">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <input type="hidden" name="product_id" value="{{ p.product_id|default('') }}">
+  <input type="hidden" name="version" value="{{ p.version|default(0)|int }}">
+  <label>Name <input name="name" value="{{ p.name|default('') }}" maxlength="100" required></label>
+  <label>Category <input name="category" value="{{ p.category|default('') }}" maxlength="60" required></label>
+  <label>Description <input name="description" value="{{ p.description|default('') }}" maxlength="500" required></label>
+  <label>Regular price in cents <input name="price_cents" type="number" min="1" value="{{ p.price_cents|default('') }}" required></label>
+  <label>Sale price in cents (0 clears sale) <input name="sale_cents" type="number" min="0" value="{{ p.sale_cents|default(0) }}"></label>
+  <label>Available quantity <input name="stock" type="number" min="0" value="{{ p.stock|default(0) }}" required></label>
+  <label>HTTPS image URL (optional) <input name="image_url" type="url" value="{{ p.image_url|default('') }}"></label>
+  <button>Save product</button>
+</form>
+{% endmacro %}
+{% block content %}
+<h1>Store administration</h1>
+<nav aria-label="Admin sections"><a href="#products">Products</a><a href="#discounts">Discount codes</a><a href="#customers">Customers</a><a href="#orders">Orders</a></nav>
+<section class="panel" id="products">
+  <h2>Products and sale prices</h2>
+  <details><summary>Add a product</summary>{{ product_form({}) }}</details>
+  {% for p in products %}<details><summary>{{ p.name }} · {{ p.stock|int }} available</summary>{{ product_form(p) }}</details>{% endfor %}
+</section>
+<section class="panel" id="discounts">
+  <h2>Discount codes</h2>
+  <form method="post" action="{{ url_for('admin.discount') }}">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <label>Code <input name="code" maxlength="24" required></label>
+    <label>Percent off <input name="percent" type="number" min="1" max="100" required></label>
+    <button>Save discount code</button>
+  </form>
+  <ul>{% for d in discounts %}<li>{{ d.code }} · {{ d.percent|int }}% off</li>{% else %}<li>No discount codes yet.</li>{% endfor %}</ul>
+</section>
+<section class="panel" id="customers">
+  <h2>Users</h2>
+  {% for u in users %}<details><summary>{{ u.email }} · {{ u.role }}</summary>
+    <form method="post" action="{{ url_for('admin.user') }}">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <input type="hidden" name="email" value="{{ u.email }}">
+      <label>Name <input name="name" value="{{ u.name }}" maxlength="80" required></label>
+      <button>Save name</button>
+    </form>
+  </details>{% endfor %}
+</section>
+<section class="panel" id="orders">
+  <h2>Orders</h2>
+  <form method="get" action="{{ url_for('admin.index') }}#orders">
+    <label>Sort orders <select name="sort">
+      {% for key, label in [('date', 'Newest first'), ('customer', 'Customer email'), ('total', 'Highest total')] %}
+        <option value="{{ key }}" {% if sort == key %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select></label><button>Sort</button>
+  </form>
+  {% for status, label in [('placed', 'Current orders'), ('completed', 'Order history')] %}
+  <h3>{{ label }}</h3>
+  {% for o in orders if o.fulfillment|default('placed') == status %}
+    <details><summary>{{ o.created_at[:10] }} · {{ o.customer }} · {{ o.total_cents|money }}</summary>
+      <p>Order {{ o.order_id }}</p>
+      <ul>{% for line in o['items'] %}<li>{{ line.name }} × {{ line.quantity }}</li>{% endfor %}</ul>
+      {% if status == 'placed' %}<form method="post" action="{{ url_for('admin.complete') }}">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <input type="hidden" name="user_id" value="{{ o.user_id }}">
+        <input type="hidden" name="order_id" value="{{ o.order_id }}">
+        <button>Mark completed</button>
+      </form>{% endif %}
+    </details>
+  {% else %}<p>No orders in this section.</p>{% endfor %}
+  {% endfor %}
+</section>
+{% endblock %}

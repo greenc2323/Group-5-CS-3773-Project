@@ -1,0 +1,8 @@
+[
+  {"product_id":"p001","name":"Everyday Backpack","category":"Carry","description":"A lightweight bag with room for your daily essentials.","price_cents":3900,"stock":15,"symbol":"🎒"},
+  {"product_id":"p002","name":"Study Notebook","category":"Stationery","description":"Dotted pages for ideas, lecture notes, and your next big plan.","price_cents":850,"stock":40,"symbol":"📓"},
+  {"product_id":"p003","name":"Desk Headphones","category":"Tech","description":"Over-ear comfort for focused study sessions.","price_cents":4500,"stock":12,"symbol":"🎧"},
+  {"product_id":"p004","name":"Travel Tumbler","category":"Drinkware","description":"Keep your favorite drink close throughout the day.","price_cents":1800,"stock":22,"symbol":"☕"},
+  {"product_id":"p005","name":"Desk Light","category":"Workspace","description":"A compact light for late nights and early starts.","price_cents":2450,"stock":10,"symbol":"💡"},
+  {"product_id":"p006","name":"Canvas Tote","category":"Carry","description":"A simple reusable tote for books and weekend errands.","price_cents":1200,"stock":25,"symbol":"🛍️"}
+]

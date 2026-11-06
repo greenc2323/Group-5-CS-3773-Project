@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Cart · CS 3773</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><header><a class="brand" href="{{ url_for('catalog.index') }}">Campus Cart<span>CS 3773 / TEAM PROJECT</span></a>
+<nav aria-label="Main"><a href="{{ url_for('catalog.index') }}">Shop</a>{% if g.user %}<a href="{{ url_for('shopping.cart') }}">Cart</a><a href="{{ url_for('shopping.orders') }}">Orders</a><a href="{{ url_for('auth.profile') }}">My account</a>{% if g.user.role == 'admin' %}<a href="{{ url_for('admin.index') }}">Admin</a>{% endif %}<span>{{ g.user.name }}</span><form action="{{ url_for('auth.logout') }}" method="post"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="quiet">Log out</button></form>{% else %}<a href="{{ url_for('auth.login') }}">Log in</a><a href="{{ url_for('auth.register') }}">Register</a>{% endif %}</nav></header>
+<main>{% for message in get_flashed_messages() %}<p class="notice" role="status">{{ message }}</p>{% endfor %}{% block content %}{% endblock %}</main>
+<footer>Built for learning. All orders are simulated. No payment information is collected.</footer></body></html>

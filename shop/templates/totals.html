@@ -1,0 +1,8 @@
+<dl class="totals">
+  <dt>Subtotal</dt><dd>{{ summary.subtotal_cents|money }}</dd>
+  {% if summary.discount_code %}
+  <dt>Discount {{ summary.discount_code }} ({{ summary.discount_percent|int }}%)</dt><dd>−{{ summary.discount_cents|money }}</dd>
+  {% endif %}
+  <dt>Tax (8.25%)</dt><dd>{{ summary.tax_cents|money }}</dd>
+  <dt><strong>Total</strong></dt><dd><strong>{{ summary.total_cents|money }}</strong></dd>
+</dl>
