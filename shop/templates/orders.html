@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h1>Your orders</h1>{% for o in orders %}<article class="panel"><a href="{{ url_for('shopping.order', order_id=o.order_id) }}">Order {{ o.order_id }}</a><p>{{ o.created_at }} · {{ o.total_cents|money }}</p><p>{{ o.status }}</p></article>{% else %}<p>No orders yet.</p>{% endfor %}{% endblock %}
