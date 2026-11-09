@@ -5,7 +5,7 @@
 Before presenting, have these ready:
 
 - Flask and Docker Desktop running.
-- Campus Cart open at `http://127.0.0.1:5000`.
+- Campus Cart open at
 - An admin account signed in in the regular browser window.
 - A private browser window for the customer demonstration.
 - A fresh email address for registration.
